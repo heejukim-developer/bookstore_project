@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+	<!-- dao와 mapper namespace가 같아야한다 -->
+	
+ <mapper namespace="ezenproject.dao.MemberDAO"> 
+     <select id="loginCheck"  resultType="ezenproject.dto.MemberDTO" parameterType="MemberDTO"  >
+	<![CDATA[
+		select * from ezenmembers	
+		where member_id=#{member_id} and member_pass=#{member_pass}
+	]]>
+  </select>
+    
+    </mapper>
