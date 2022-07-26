@@ -1,18 +1,29 @@
 package ezenproject.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,85 +35,101 @@ import ezenproject.service.MemberService;
 import ezenproject.service.OrderService;
 
 
-// http://localhost:8090/index.jsp
+// http://localhost:8090/
 
-@Controller
 @CrossOrigin("*")
+@Controller
 public class MainController {
 
+	@Autowired
+	private BookService bservice;
 	
-//	@Autowired
-//	private BookService bservice;
 	@Autowired
 	private MemberService mservice;
-//	private OrderService oservice;
-//	private BookDTO bdto;
-	//	private OrderDTO odto;
 	
 	@Autowired
+	private OrderService oservice;
+	private BookDTO bdto;
 	private MemberDTO mdto;
-	
+	private OrderDTO odto;
+
 	public MainController() {
 		// TODO Auto-generated constructor stub
 	}
-
 	
-
-	//2번째 방법 .. 로그인화면 
-	@RequestMapping(value = "/")
-	public String loginpage() {
-		return "login"; //login.jsp로 
+	@Value("${spring.servlet.multipart.location}")
+	private String filepath;
+	
+	
+	// http://localhost:8090/
+	@RequestMapping(value = {"/", "/index.do"}, method = RequestMethod.GET)
+	public ModelAndView main(HttpServletRequest request, ModelAndView mav ) {
+		String viewname = (String) request.getAttribute("viewName");
+		if(viewname==null) {
+			viewname = "/index";
+		}
+		
+		mav.setViewName(viewname);
+		
+		return mav;
 	}
-//	
-//	@RequestMapping(value = "/logincheck")
-//	public ModelAndView loginCheck(@ModelAttribute MemberDTO dto, HttpSession session) {
-//		boolean result = mservice.loginCheck(dto, session);
-//		ModelAndView mav = new ModelAndView();
-//		if (result == true) {//로그인 성공 
-//			//mypage.jsp로 이동
-//			mav.setViewName("redirect:/mypage.jsp");
-//		}else {
-//			//mypage.jsp로 이동
-//			mav.setViewName("redirect:/member_join.jsp");
-//			
-//		}
-//		return mav;
-//	}
 	
-	//컨트롤러 아예 안먹힘 
-	//@RequestMapping(value = "/login.jsp", method = RequestMethod.POST)
-	@PostMapping("/login.jsp")
-	public ModelAndView Login(@ModelAttribute("member") MemberDTO member,
-			                  RedirectAttributes  rAttr,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("확인");
+//	Form으로 끝나는 친구들 연결 시키는거
+	@RequestMapping(value = "/member/*Form.do", method = RequestMethod.GET)
+	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
+            @RequestParam(value= "action", required=false) String action,
+            HttpServletRequest request, 
+            HttpServletResponse response) {
+		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action);
+		
 		ModelAndView mav = new ModelAndView();
-		mdto = mservice.Login(member);
-		if(mdto != null) {  
-			//getSession() 메서드는 서버에 생성된 세션이 있다면 세션을 반환
+		mav.addObject("result", result);
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+//	로그인 하는 행위
+	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST )
+	public ModelAndView memberLoginMethod(@ModelAttribute("member") MemberDTO dto, RedirectAttributes rAttr,
+			HttpServletRequest request,  HttpServletResponse response
+			) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mdto = mservice.memberLogin(dto);
+		if(mdto!=null) {
 			HttpSession session = request.getSession();
-			//setAttribute는 name, value 쌍으로 객체 저장.
 			session.setAttribute("member", mdto);
 			session.setAttribute("isLogOn", true);
 			
-			//action값 조회 
-			String action = (String)session.getAttribute("action");
+			String action = (String) session.getAttribute("action");
 			session.removeAttribute("action");
-			
-			if(action!= null) {
-				mav.setViewName("redirect:"+action);
+			if(action!=null) {
+				mav.setViewName("redirect:" + action);
 			}else {
-				//성공시 마이페이지로 
-				mav.setViewName("redirect:/mypage.jsp");	
+				mav.setViewName("redirect:/");
 			}
 		}else {
-			rAttr.addAttribute("result","loginFailed");
-			//실패시 회원가입 페이지로
-			mav.setViewName("redirect:/member_join.jsp");
+			rAttr.addAttribute("result", "loginFailed");
+			mav.setViewName("redirect:/member/loginForm.do");
 		}
+		
 		return mav;
 	}
 	
 	
-
+//	로그아웃 하는 행위
+	@RequestMapping(value = "/member/logout.do", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		session.removeAttribute("member");
+		session.removeAttribute("isLogin");
+		
+		return "redirect:/";
+	}
+	
+	
 }
+	
+	
+	

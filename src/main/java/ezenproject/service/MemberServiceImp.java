@@ -1,9 +1,8 @@
 package ezenproject.service;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +12,6 @@ import ezenproject.dto.MemberDTO;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-
 public class MemberServiceImp implements MemberService{
 
 	
@@ -21,26 +19,18 @@ public class MemberServiceImp implements MemberService{
 	private MemberDAO dao;
 	
 	public MemberServiceImp() {
-		
+		// TODO Auto-generated constructor stub
 	}
 	
+	
 	@Override
-	public MemberDTO Login(MemberDTO memberDTO) throws Exception {
-		return dao.loginMember(memberDTO);
+	public MemberDTO memberLogin(MemberDTO dto) throws Exception {
 		
+		return dao.loginCheck(dto);
 	}
-
-//  2번째방법
-//	@Override
-//	public boolean loginCheck(MemberDTO dto, HttpSession session) {
-//		boolean result = dao.loginCheck(dto);
-//		if(result) {
-//			
-//			session.setAttribute("member_id", dto.getMember_id());
-//			session.setAttribute("member_pass", dto.getMember_pass());
-//		}
-//		return result;
-//	}
+	
+	
+	
 	
 }
 
