@@ -1,5 +1,7 @@
 package ezenproject.service;
 
-public interface OrderService {
+import ezenproject.dto.OrderDTO;
 
+public interface OrderService {
+	public OrderDTO selectOneProcess(int num);
 }

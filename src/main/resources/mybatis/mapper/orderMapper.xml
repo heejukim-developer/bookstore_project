@@ -8,6 +8,9 @@
     
     <mapper namespace="ezenproject.dao.OrderDAO">
     
+     <select id="selectOne" parameterType="int" resultType="BookDTO">
+    select*from ezenbooks where num=#{num}
+    </select>
     
     
     

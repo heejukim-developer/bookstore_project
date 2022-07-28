@@ -127,7 +127,28 @@ public class MainController {
 		
 		return "redirect:/";
 	}
+//////////////////주문페이지 ////////////////////////////////////////////////////////////
 	
+//http://localhost:8090/order_detail.do?currentPage=1&num=1
+
+@RequestMapping("/order_detail.do")
+public ModelAndView viewMethod(HttpServletRequest request,int currentPage,int num,ModelAndView mav) {
+//BoardDTO dto= service.contentProcess(num);
+String viewName= (String)request.getAttribute("viewName");
+mav.addObject("mdto",mservice.selectOneProcess(num));
+mav.addObject("bdto",bservice.selectOneProcess(num));
+mav.addObject("currentPage",currentPage);
+//mav.setViewName("/board/view");
+mav.setViewName(viewName);
+return mav;
+
+}
+
+//@RequestMapping("/order/order_detail.do")
+//public String order_detail() {
+//return "/order_detail";
+//}
+
 	
 }
 	

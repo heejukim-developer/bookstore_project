@@ -8,6 +8,9 @@
     
     <mapper namespace="ezenproject.dao.MemberDAO">
     
+  <select id="selectOne" resultType="MemberDTO">
+    select*from ezenmembers where num=#{num}
+    </select>
     
     <!--로그인 하는 행위  -->
     <select id="loginCheck" resultType="MemberDTO" parameterType="MemberDTO">

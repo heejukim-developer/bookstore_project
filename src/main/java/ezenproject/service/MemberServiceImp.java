@@ -29,6 +29,11 @@ public class MemberServiceImp implements MemberService{
 		return dao.loginCheck(dto);
 	}
 	
+	@Override
+	public MemberDTO selectOneProcess(int num) {
+		
+		return dao.selectOne(num);
+	}
 	
 	
 	

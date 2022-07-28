@@ -70,6 +70,12 @@ pageEncoding="UTF-8"%>
           font-size: 3.5rem;
         }
       }
+/*      .card_img{
+      margin-left:45%; 
+      padding-top:4%;
+      padding-bottom:4%;
+      } */
+
     </style>
 
     <!-- Custom styles for this template -->
@@ -104,7 +110,7 @@ pageEncoding="UTF-8"%>
      <!--  <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> -->
     </div>
     
-<form name="order" method="get"  action="/order_detail.do">
+
     <div class="row g-5">
       <div class="col-md-5 col-lg-4 order-md-last">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -114,18 +120,20 @@ pageEncoding="UTF-8"%>
         <ul class="list-group mb-3">
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
-              <h6 class="my-0">상품 이름 </h6>
-              <small class="text-muted" name="book_title">${dto.book_title}</small>
+              <h6 class="my-0">상품명 </h6>
+              <small class="text-muted" name="book_title">${bdto.book_title}</small>
             </div>
-            <span class="text-muted" name="book_price">${dto.book_price} </span>
+            <span class="text-muted" name="book_price">${bdto.book_price}원</span>
           </li>
           <li class="list-group-item d-flex justify-content-between lh-sm">
             <div>
-              <h6 class="my-0">상품 이미지 </h6>
-              <small class="text-muted" name ="book_img">
-              <img src="/assets/img/${dto.book_img}" height="530px" width="100%" class="card_img"
-						 alt="${dto.book_img}"></small>
+              <h6 class="my-0"><p>상품 이미지</p></h6>
+              
+              <div class="text-muted" id="img-responsive" name ="book_img">
+              <img src="/assets/img/${bdto.book_img}" height="300px" width="100%" class="img-responsive img-thumbnail" alt="${bdto.book_img}">
+			</div>
             </div>
+            
             <span class="text-muted"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -156,13 +164,13 @@ pageEncoding="UTF-8"%>
         </form> -->
         
       </div>
- </form>    
+
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">배송지 정보 입력 </h4>
         
         <div class="col-5">
               <label for="id" class="form-label">아이디 <span class="text-muted"></span></label>
-              <input type="id" class="form-control" id="member_id" name="member_id" placeholder="${dto.member_id}">
+              <input type="id" class="form-control" id="member_id" name="member_id" placeholder="${mdto.member_id}">
               <div class="invalid-feedback">
                
               </div>

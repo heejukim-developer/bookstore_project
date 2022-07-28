@@ -11,6 +11,6 @@ import ezenproject.dto.MemberDTO;
 @Repository
 public interface MemberDAO {
 
-	
+	public MemberDTO selectOne(int num);
 	public MemberDTO loginCheck(MemberDTO dto) throws DataAccessException;
 }
