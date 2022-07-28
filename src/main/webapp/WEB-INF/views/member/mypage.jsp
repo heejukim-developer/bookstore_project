@@ -46,34 +46,6 @@ pageEncoding="UTF-8"%>
 
   <!-- detail start -->
   
-<!-- 공백일 경우 경고창띄우기 -->
-    <c:choose>
-	<c:when test="${empty param.member_id || empty param.member_pass}">
-	  <script>
-	    window.onload=function(){
-	      alert("아이디나 비밀번호를 입력하세요 ");}
-	
-	    
-	  </script>
-	</c:when>
-</c:choose>  
-
-<!-- param값  -->
- 	${param.member_id} 님 반갑습니다 ! 
- 
-    <h3>테스트 아이디 : ${param.member_id }</h3>
-	<h3>테스트 비밀번호 : ${param.member_pass}</h3>
-	
-<!-- dto에 있는 아이디 비번 비교 수정중!  -->
-
-<c:if test ="${not empty param.member_id}">
-<jsp:useBean id="dto" class="ezenproject.dto.MemberDTO"/>
-<jsp:setProperty property="*" name="dto"/>
-<pre>
-dto체크 아이디 :${dto.member_id}
-</pre>
-</c:if>
-	
 
   <!-- detail end -->
 
