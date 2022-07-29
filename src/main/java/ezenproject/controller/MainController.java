@@ -1,6 +1,7 @@
 package ezenproject.controller;
 
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
 
 import ezenproject.dto.BookDTO;
 import ezenproject.dto.MemberDTO;
@@ -129,21 +132,36 @@ public class MainController {
 	}
 //////////////////주문페이지 ////////////////////////////////////////////////////////////
 	
-//http://localhost:8090/order_detail.do?currentPage=1&num=1
-
-@RequestMapping("/order_detail.do")
-public ModelAndView viewMethod(HttpServletRequest request,int currentPage,int num,ModelAndView mav) {
-//BoardDTO dto= service.contentProcess(num);
-String viewName= (String)request.getAttribute("viewName");
-mav.addObject("mdto",mservice.selectOneProcess(num));
-mav.addObject("bdto",bservice.selectOneProcess(num));
-mav.addObject("currentPage",currentPage);
-//mav.setViewName("/board/view");
-mav.setViewName(viewName);
-return mav;
-
-}
-
+// http://localhost:8090/order_detail.do?currentPage=1&num=1
+// 주문 페이지로 이동 
+	@RequestMapping("/order_detail.do")
+	public ModelAndView viewMethod(HttpServletRequest request,int currentPage,int num,ModelAndView mav) {
+		//BoardDTO dto= service.contentProcess(num);
+		String viewName= (String)request.getAttribute("viewName");
+		mav.addObject("mdto",mservice.selectOneProcess(num));
+		mav.addObject("bdto",bservice.selectOneProcess(num));
+		mav.addObject("currentPage",currentPage);
+		//mav.setViewName("/board/view");
+		mav.setViewName(viewName);
+		return mav;
+		
+	}
+// 결제하기 누르면 주문테이블에 넣기 
+	@RequestMapping(value="/order/order_List.do",method = RequestMethod.POST)
+	public String updateProMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+		
+		return "redirect:/order/order_List.do?currentPage="+currentPage;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="orderList.do", method = RequestMethod.POST)
+	public void insertOrderMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+	
+		oservice.addOrderProcess(odto);
+		
+	}
+	
+	
 //@RequestMapping("/order/order_detail.do")
 //public String order_detail() {
 //return "/order_detail";

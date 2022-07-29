@@ -27,4 +27,10 @@ public class OrderServiceImp implements OrderService{
 		
 		return dao.selectOne(num);
 	}
+	
+	@Override
+	public void addOrderProcess(OrderDTO dto) {
+	
+		dao.addOrder(dto);
+	}
 }
