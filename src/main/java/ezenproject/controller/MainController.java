@@ -147,12 +147,12 @@ public class MainController {
 		
 	}
 // 결제하기 누르면 주문테이블에 넣기 
-	@RequestMapping(value="/order/order_List.do",method = RequestMethod.POST)
-	public String updateProMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
-		
-		return "redirect:/order/order_List.do?currentPage="+currentPage;
-	}
-	
+//	@RequestMapping(value="/order/order_List.do",method = RequestMethod.POST)
+//	public String updateProMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+//		
+//		return "redirect:/order/order_List.do?currentPage="+currentPage;
+//	}
+//	
 	@ResponseBody
 	@RequestMapping(value="orderList.do", method = RequestMethod.POST)
 	public void insertOrderMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
