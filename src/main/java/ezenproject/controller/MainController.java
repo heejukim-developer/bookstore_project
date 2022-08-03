@@ -2,6 +2,7 @@ package ezenproject.controller;
 
 import java.io.File;
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,15 +29,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
 import ezenproject.dto.BookDTO;
 import ezenproject.dto.MemberDTO;
 import ezenproject.dto.OrderDTO;
 import ezenproject.service.BookService;
 import ezenproject.service.MemberService;
 import ezenproject.service.OrderService;
-
+import ezenproject.dto.PageDTO;
 
 // http://localhost:8090/
 
@@ -55,7 +54,9 @@ public class MainController {
 	private BookDTO bdto;
 	private MemberDTO mdto;
 	private OrderDTO odto;
-
+	public PageDTO pdto;
+	private int currentPage;
+	
 	public MainController() {
 		// TODO Auto-generated constructor stub
 	}
@@ -130,9 +131,35 @@ public class MainController {
 		
 		return "redirect:/";
 	}
+//////////////책 페이지////////////////////////////////////////////////////
+	
+//	모든 종류 도서 리스트
+	@RequestMapping(value = "/book/allBooklist.do")
+	public ModelAndView listAllBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav) {
+		int totalRecord = bservice.countProcess();
+		String viewName = (String) request.getAttribute("viewName");
+		if (totalRecord != 0) {
+			if (pv.getCurrentPage() == 0) {
+				currentPage = 1;
+			} else {
+				currentPage = pv.getCurrentPage();
+			}
+			pdto = new PageDTO(currentPage, totalRecord);
+			List<BookDTO> alist = bservice.allBookListProcess(pdto);
+			mav.addObject("alist", alist);
+			mav.addObject("pv", pdto);
+
+		}
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	
+	
 //////////////////주문페이지 ////////////////////////////////////////////////////////////
 	
-// http://localhost:8090/order_detail.do?currentPage=1&num=1
+//	http://localhost:8090/order_detail.do?currentPage=1&num=1
 // 주문 페이지로 이동 
 	@RequestMapping("/order_detail.do")
 	public ModelAndView viewMethod(HttpServletRequest request,int currentPage,int num,ModelAndView mav) {
@@ -146,29 +173,202 @@ public class MainController {
 		return mav;
 		
 	}
-// 결제하기 누르면 주문테이블에 넣기 
-//	@RequestMapping(value="/order/order_List.do",method = RequestMethod.POST)
-//	public String updateProMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+// 주문 테이블에 넣기 
+		@ResponseBody
+		@RequestMapping(value="orderList.do", method = RequestMethod.POST)
+		public void insertOrderMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+		
+			oservice.addOrderProcess(odto);
+			
+		}
+
+////////////////////////////////////////////////////여기부터 관리자 페이지 메소드입니다.////////////////////
+//
+////	관리자 페이지 제품 리스트 출력
+//	@ResponseBody
+//	@RequestMapping(value = "/books/list")
+//	public Map<String, Object> listBookMethod(HttpServletRequest request){
+//		Map<String, Object> map = new HashMap<String, Object>();
 //		
-//		return "redirect:/order/order_List.do?currentPage="+currentPage;
+//		List<BookDTO> alist = bservice.listProcess();
+//		
+////		System.out.println(alist.get(0).getBook_title());
+//		map.put("alist", alist);
+//		
+//		return map;
 //	}
 //	
-	@ResponseBody
-	@RequestMapping(value="orderList.do", method = RequestMethod.POST)
-	public void insertOrderMethod(OrderDTO odto,int currentPage,HttpServletRequest request) {
+//	
+////	판매 유무 변경
+//	@ResponseBody
+//	@RequestMapping(value = "/books/statuschange/{num}", method = RequestMethod.PUT)
+//	public void statusBookChangeMethod(@PathVariable("num") int num) {
+//		
+//		bservice.statusCheckProcess(num);
+//		
+//	}
+//	
+////	재고 유무 변경
+//	@ResponseBody
+//	@RequestMapping(value = "/books/stockchange/{num}", method = RequestMethod.PUT)
+//	public void stockBookChangeMethod(@PathVariable("num") int num) {
+//		
+//		bservice.stockCheckProcess(num);
+//		
+//	}
+//	
+////	새로운 제품 등록
+//	@ResponseBody
+//	@RequestMapping(value = "/books/newbooksave", method = RequestMethod.POST)
+//	public void newBookMethod(BookDTO dto ) {
+//		MultipartFile file = dto.getFilename();
+//		if(file!=null && !file.isEmpty()) {
+//			UUID ran = saveCopyFile(file);
+//			dto.setBook_img(ran+"_"+file.getOriginalFilename());
+//		}
+//		
+//		bservice.newBookIDProcess(dto);
+//		bservice.newBookProcess(dto);
+//		
+//	}
+//	
+//	
+////	책 표지 등록
+//	private UUID saveCopyFile(MultipartFile file) {
+//		String filename = file.getOriginalFilename();
+//		
+//		//중복 파일명을 처리하기 위해 난수 발생
+//				UUID ran = UUID.randomUUID();
+//				
+//				File fe= new File(filepath); // 경로가 없으면 만들어라
+//				if(!fe.exists()) {
+//					fe.mkdirs();
+//				}
+//				
+//				File ff = new File(filepath, ran + "_" + filename);
+//				
+//				try {
+//					FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(ff));
+//					
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+////				System.out.println("파일 경로:  "+filepath);
+//				return ran;
+//				
+//	}
+//	
+////	도서 제품 데이터 영구 삭제
+//	@ResponseBody
+//	@RequestMapping(value = "/books/deletdata/{num}", method = RequestMethod.DELETE)
+//	public void deleteBookDataMethod(@PathVariable("num") int num) {
+//		bservice.deleteDataProcess(num, filepath);
+//	}
+//	
+//	
+////	도서 정보 수정 행위
+//	@ResponseBody
+//	@RequestMapping(value = "/books/updatebook", method = RequestMethod.PUT)
+//	public void updateBookMethod(BookDTO dto) {
+//		MultipartFile file = dto.getFilename();
+//		System.out.println(dto.getBook_title());
+//		if(file!=null && !file.isEmpty()) {
+//			UUID ran = saveCopyFile(file);
+//			dto.setBook_img(ran+"_"+file.getOriginalFilename());
+//		}
+//		
+//		bservice.updateBookProcess(dto, filepath);
+//		
+//	}
+//	
+//	@ResponseBody
+//	@RequestMapping(value = "/books/selectone/{num}", method = RequestMethod.GET)
+//	public BookDTO selectOneBookMethod(@PathVariable("num") int num) {
+//		
+//		return bservice.selectOneProcess(num);
+//	}
+//	
+//	
+////	관리자 페이지 회원 리스트 출력
+//	@ResponseBody
+//	@RequestMapping(value = "/members/list")
+//	public Map<String, Object> listMemberMethod(HttpServletRequest request){
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		
+//		List<MemberDTO> alist = mservice.listProcess();
+//			
+//		
+////		System.out.println(alist.get(0).getMember_id());
+//		map.put("alist", alist);
+//		
+//		return map;
+//	}
+//	
+//	
+////	계정 상태 변경
+//	@ResponseBody
+//	@RequestMapping(value = "/members/statuschange/{num}", method = RequestMethod.PUT)
+//	public void statusMemberChangeMethod(@PathVariable("num") int num) {
+//		
+//		mservice.statusCheckProcess(num);
+//		
+//	}
+//	
+//	
+////	계정 유형 변경
+//	@ResponseBody
+//	@RequestMapping(value = "/members/typechange/{num}", method = RequestMethod.PUT)
+//	public void typeMemberChangeMethod(@PathVariable("num") int num) {
+//		
+//		mservice.typeCheckProcess(num);
+//		
+//	}
+//	
+//	
+////	회원 데이터 영구 삭제
+//	@ResponseBody
+//	@RequestMapping(value = "/members/deletdata/{num}", method = RequestMethod.DELETE)
+//	public void deleteMemberDataMethod(@PathVariable("num") int num) {
+//		mservice.deleteDataProcess(num);
+//	}
+//	
+//	
+//	
+////	관리자 페이지 주문 리스트 출력
+//	@ResponseBody
+//	@RequestMapping(value = "/orders/list")
+//	public Map<String, Object> listOrderMethod(HttpServletRequest request){
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		
+//		List<OrderDTO> alist = oservice.listProcess();
+//
+//		map.put("alist", alist);
+//		
+//		return map;
+//	}
+//	
+//	
+////	주문 상태 변경
+//	@ResponseBody
+//	@RequestMapping(value = "/orders/statuschange", method = RequestMethod.PUT)
+//	public void changeOrderStatusMethod(OrderDTO dto) {
+//		
+//		
+//		oservice.statusChangeProcess(dto);
+//		
+//	}
+//	
+////	주문 데이터 영구 삭제
+//	@ResponseBody
+//	@RequestMapping(value = "/orders/deletdata/{num}", method = RequestMethod.DELETE)
+//	public void deleteOrderDataMethod(@PathVariable("num") int num) {
+//		oservice.deleteDataProcess(num);
+//	}
+//	
+//	
+//////////////////////////////////////////////////////여기까지 관리자 페이지 메소드입니다.///////////////	
 	
-		oservice.addOrderProcess(odto);
-		
-	}
-	
-	
-//@RequestMapping("/order/order_detail.do")
-//public String order_detail() {
-//return "/order_detail";
-//}
-
 	
 }
-	
-	
-	
