@@ -19,6 +19,22 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
 
+<!-- today -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:set var="now" value="<%=new java.util.Date() %>"/>
+<fmt:formatDate value="${now}" pattern="Y" var="year" />
+<fmt:formatDate value="${now}" pattern="E" var="day" />
+<fmt:formatDate value="${now}" pattern="M" var="month" />
+<fmt:formatDate value="${now}" pattern="d" var="date" />
+<!-- //today  -->
+
+<!-- tomorrow  -->
+<c:set var="tomorrow" value="<%=new java.util.Date(new java.util.Date().getTime()+60*60*24*1000)%>"/>
+<fmt:formatDate value="${tomorrow}" pattern="E" var="tomorrowday" />
+<fmt:formatDate value="${tomorrow}" pattern="M" var="tomorrowmonth" />
+<fmt:formatDate value="${tomorrow}" pattern="d" var="tomorrowdate" />
+<!-- //tomorrow  -->
+
  <link href="../assets/css/style.css" rel="stylesheet" /> 
  <link href="../assets/css/book.css" rel="stylesheet" />
 <title>모든 도서</title>
@@ -62,13 +78,9 @@
 	<div class="list_header">
 	<h5 class="title_best_basic">
 		분야 종합 
-	<small>(집계기준 : 2022.07.20 ~ 2022.07.26)</small>
+	<small>(집계기준 : 2022.7.20 ~ ${year}.${month}.${date})</small>
 	
-	<span class="list_button">
-		<a href="javascript: chkAll()" class="btn_medium btn_blue3">전체선택</a>
-		<a href="path" class="btn_medium btn_blue3">장바구니 담기</a>
-		<a href="path" class="btn_medium btn_blue3">찜하기</a>
-	</span>
+
 	</h5>
 	</div>
 	
@@ -80,17 +92,11 @@
 <a href="detail_path">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
 
-<span class="check">
-    <input type="checkbox" name="indexCnt" value="1" title="이 상품을 선택">
-</span>
 </div>
 
 
 <div class="detail">
-	<div class="subtitle">
-	<br>
-	subtitle
-	</div>
+
 
 	<div class="booklist_title">
 	 <strong>${book.book_title}</strong>
@@ -126,7 +132,7 @@
 	    </div>
 	    
     <div class="info">
-    지금 주문하면  <strong class="blue">내일( 3일,수)</strong><strong class="blue">  도착 예정</strong> 입니다
+    지금 주문하면  <strong class="blue">내일(${tomorrowmonth}월 ${tomorrowdate}일 ${tomorrowday}요일)</strong><strong class="blue"> 도착 예정</strong> 입니다
     
     </div>
     <br>
@@ -147,7 +153,7 @@
 	</c:otherwise>
 		</c:choose>				
 		
-	<a href="path" class="btn_medium  btn_blue2">장바구니에 담기</a>
+	<a href="path" class="btn_medium  btn_blue2">장바구니에 담기</a><br>
 	</c:when>
 	
 	<c:otherwise>
@@ -155,99 +161,13 @@
 			<button class="btn btn-danger" disabled>일시품절</button>
 		</c:otherwise>
 	</c:choose>
-<a href="path" class="btn_medium ">찜하기</a><br>
+
 </div>
 
 </li>
 </ul>
 <!-- ////////////////테스트 똑같은거 붙여봄 /////////////////////////////////// -->
-<ul class="list_type01">
-<li>
-<div class="cover">
 
-<a href="detail_path">
-<img src="../assets/img/${book.book_img }" alt="..."></a>
-
-<span class="check">
-    <input type="checkbox" name="indexCnt" value="1" title="이 상품을 선택">
-</span>
-</div>
-
-
-<div class="detail">
-	<div class="subtitle">
-	<br>
-	subtitle
-	</div>
-
-	<div class="booklist_title">
-	 <strong>${book.book_title}</strong>
-	</div>
-	
-	<div class="author">${book.book_author}
-    <c:if test="${book.book_category==1}">
-		<small class="text-muted">[소설]</small>
-	</c:if>
-	
-	<c:if test="${book.book_category==2}">
-		<small class="text-muted">[인문/사회]</small>
-	</c:if> 
-    
-    <span class="line">|</span> ${book.book_publisher}
-    <span class="line">|</span> 2022년 05월 30일
-    
-	</div>
-    
-	<div class="review">
-	    <img src="http://image.kyobobook.co.kr/ink/images/common/img_starating_a5.gif" alt="5점 만점에 5점">
-	    <a href="http://www.kyobobook.co.kr/product/detailViewKor.laf?mallGb=KOR&amp;ejkGb=KOR&amp;barcode=9788901260716#review">(18개의 리뷰가 있습니다)</a>
-	</div>
-
-	<div class="price">
-
-        도서
-	 <strong class="book_price">${book.book_price}원</strong>
-	  <span class="dc_rate">[<strong>10</strong>%↓ + <strong>5</strong>% 적립]</span>
-	  <a href="javascript:goDetailProductNotAge('EBK','150109','4808901260716','0 ', 'N')" target="_self">
-	 <span class="line">|</span> eBook <strong class="ebook_price">12,300원</strong>
-	   </a>
-	    </div>
-	    
-    <div class="info">
-    지금 주문하면  <strong class="blue">내일( 3일,수)</strong><strong class="blue">  도착 예정</strong> 입니다
-    
-    </div>
-    <br>
- 
-</div>
-
-<div class="book_add">
-<c:choose>
-	<c:when test="${book.book_stock==1}">
-		<c:choose>
-			<c:when test="${isLogOn == true  && member!= null}">
-		
-		<a href="${contextPath}/order/orderDetail.do?num=${book.num }"class="btn_medium btn_blue">바로 구매하기</a>
-			</c:when>
-	
-	<c:otherwise>
-		<a href="${contextPath}/member/loginForm.do"class="btn_medium btn_blue"> 바로 구매하기 </a>
-	</c:otherwise>
-		</c:choose>				
-		
-	<a href="path" class="btn_medium  btn_blue2">장바구니에 담기</a>
-	</c:when>
-	
-	<c:otherwise>
-			<button class="btn btn-warning" disabled>일시품절</button>
-			<button class="btn btn-danger" disabled>일시품절</button>
-		</c:otherwise>
-	</c:choose>
-<a href="path" class="btn_medium ">찜하기</a><br>
-</div>
-
-</li>
-</ul>
 <!-- //////////////////////////////////////////////// -->
 </c:forEach>
 </div>
@@ -300,7 +220,7 @@
 <!-- 다음 시작 -->
 	<li class="page-item">
 	<c:if test="${pv.endPage<pv.totalPage}">
-			<a class="page-link"
+			<a class="page-link" 
 				href="/book/allBooklist.do?currentPage=${pv.startPage+pv.blockPage}"
 				aria-label="Next"> 
 				<span aria-hidden="true">&raquo;</span>
