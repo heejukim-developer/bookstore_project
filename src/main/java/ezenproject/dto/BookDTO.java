@@ -31,6 +31,16 @@ public class BookDTO {
 
 	
 	
+	
+	public BookDTO() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	
+
+
 
 	public String getBook_author() {
 		return book_author;
@@ -162,6 +172,11 @@ public class BookDTO {
 	}
 	
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return String.format("%d %s %s %s %s %s %d %d 이미지 :%s",num, book_title, book_author, book_publisher, book_content, book_isbn, book_price, book_category,book_img);
+	}
 	
 	
 }

@@ -13,10 +13,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
 </head>
+
 <body>
 	<main id="main">
 		<!-- 책 추천과 같은 이미지 사진 넣기 -->
@@ -83,12 +84,12 @@
 
 			
 				<div class="carousel-item">
-					<img src="/assets/img/배너2.jpg" class="d-block w-100" alt="..." >
+					<img src="/assets/img/배너2.jpg" class="d-block"  alt="..." >
 				</div>
 				
 			
 				<div class="carousel-item">
-					<img src="/assets/img/배너3.jpg" class="d-block w-100 "
+					<img src="/assets/img/배너3.jpg" class="d-block "
 						alt="...">
 				</div>
 			</div>
@@ -178,7 +179,7 @@
 											src="../assets/img/liberal-arts.jpg" alt="" class="img-fluid"></a>
 										<div class="post-meta">
 											<span class="date">인문</span> <span class="mx-1">&bullet;</span>
-											<span>20220.07.26</span>
+											<span>2022.07.26</span>
 										</div>
 										<h4>
 											<a href="single-post.html">중국사상의 지혜</a>
