@@ -9,6 +9,7 @@ pageEncoding="UTF-8"%>
     </p>
 
     <div class="card-text">Copyright &copy; 2022 All rights reserved</div>
+    <a class="footertoTop" href="#" title="top">TOP</a>
   </div>
 </div>
 
