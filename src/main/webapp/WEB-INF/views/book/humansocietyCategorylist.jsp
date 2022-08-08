@@ -67,11 +67,6 @@
 
 	<!-- booklist start -->
 
-<c:url var="detail_path" value="/book/book_detail.do">
-	<c:param name="currentPage" value="${pv.currentPage }" />
-	<c:param name="num" value="${book.num }" />
-</c:url>
-
 <div id="wrap">
 <div class="wrapper">
 	<c:forEach items="${alist}" var="book">
@@ -87,9 +82,13 @@
 	
 <ul class="list_type01">
 <li>
-<div class="cover">
 
-<a href="detail_path">
+<div class="cover">
+<c:url var="detail_path" value="book_detail.do">
+	<c:param name="currentPage" value="${pv.currentPage }" />
+	<c:param name="num" value="${book.num }" />
+</c:url>
+<a href="${detail_path }">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
 
 </div>
@@ -145,7 +144,8 @@
 		<c:choose>
 			<c:when test="${isLogOn == true  && member!= null}">
 		
-		<a href="${contextPath}/order/orderDetail.do?num=${book.num }"class="btn_medium btn_blue">바로 구매하기</a>
+		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
+			&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
 			</c:when>
 	
 	<c:otherwise>

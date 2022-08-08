@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +17,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
-
+	
 <!-- today -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="now" value="<%=new java.util.Date() %>"/>
@@ -35,14 +34,16 @@
 <fmt:formatDate value="${tomorrow}" pattern="d" var="tomorrowdate" />
 <!-- //tomorrow  -->
 
- <link href="../assets/css/style.css" rel="stylesheet" /> 
+<link href="../assets/css/style.css" rel="stylesheet" />
  <link href="../assets/css/book.css" rel="stylesheet" />
-<title>모든 도서</title>
+
+<title>소설</title>
 <link rel="short icon" href="../assets/img/favicon.png"
 	type="image/x-icon" />
 
-</head>
 
+
+</head>
 <body>
 	<!-- Header Start -->
 	<!-- Nabar start -->
@@ -50,12 +51,13 @@
 	<%@ include file="../common/header.jsp"%>
 	<!-- Header end -->
 
-<!-- breadclumb start -->
+	<!-- breadclumb start -->
 	<section class="bread">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/">메인</a></li>
+					<li class="breadcrumb-item"><a href="/">모든 도서</a></li>
 					<li class="breadcrumb-item active" aria-current="page">소설</li>
 				</ol>
 			</nav>
@@ -67,10 +69,7 @@
 
 	<!-- booklist start -->
 
-<c:url var="detail_path" value="/book/book_detail.do">
-	<c:param name="currentPage" value="${pv.currentPage }" />
-	<c:param name="num" value="${book.num }" />
-</c:url>
+
 
 <div id="wrap">
 <div class="wrapper">
@@ -87,9 +86,13 @@
 	
 <ul class="list_type01">
 <li>
-<div class="cover">
 
-<a href="detail_path">
+<div class="cover">
+<c:url var="detail_path" value="book_detail.do">
+	<c:param name="currentPage" value="${pv.currentPage }" />
+	<c:param name="num" value="${book.num }" />
+</c:url>
+<a href="${detail_path }">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
 
 </div>
@@ -145,7 +148,8 @@
 		<c:choose>
 			<c:when test="${isLogOn == true  && member!= null}">
 		
-		<a href="${contextPath}/order/orderDetail.do?num=${book.num }"class="btn_medium btn_blue">바로 구매하기</a>
+		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
+			&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
 			</c:when>
 	
 	<c:otherwise>
@@ -233,10 +237,8 @@
 </div>
 <!-- pagination end -->
 	
-<!-- board end -->
 
-<!-- Footer Start -->
-<%@ include file="../common/footer.jsp"%>
-<!-- Footer end -->
-	 </body>
+	<!-- Footer Start -->
+	<%@ include file="../common/footer.jsp"%>
+	<!-- Footer end -->
 </html>
