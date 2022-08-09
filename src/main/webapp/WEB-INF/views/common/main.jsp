@@ -170,6 +170,7 @@ $(document).ready(function(){
 <div class="col-lg-8">
 	<div class="row g-5">
 		<div class="col-lg-4 border-start custom-border">
+		<!-- 테스트 -->
 			<div class="post-entry-1">
 				<a href="single-post.html"><img
 					src="../assets/img/novel.jpg" alt="" class="img-fluid"></a>
