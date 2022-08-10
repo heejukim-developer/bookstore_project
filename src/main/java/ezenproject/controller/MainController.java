@@ -71,7 +71,7 @@ public class MainController {
 
 //	메인 페이지 연결
 	// http://localhost:8090/
-	@RequestMapping(value = { "/", "/index.do" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, ModelAndView mav) {
 		String viewname = (String) request.getAttribute("viewName");
 		if (viewname == null) {
@@ -82,30 +82,15 @@ public class MainController {
 
 		return mav;
 	}
-//메인페이지 카테고리 분류 
-
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public ModelAndView mainCategoryBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav,
-			int book_category) {
-		int totalRecord = bservice.countCategoryProcess(book_category);
-		String viewName = (String) request.getAttribute("viewName");
-		if (totalRecord != 0) {
-			if (pv.getCurrentPage() == 0) {
-				currentPage = 1;
-			} else {
-				currentPage = pv.getCurrentPage();
-			}
-			pdto = new PageDTO(currentPage, totalRecord);
-			List<BookDTO> alist = bservice.categoryBookListProcess(pdto, book_category);
-			mav.addObject("alist", alist);
-			mav.addObject("pv", pdto);
-
+	// 메인페이지 북 카테고리 연결
+		@RequestMapping(value = "/index.do")
+		public ModelAndView mainlistAllBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav) {
+			String viewName = (String) request.getAttribute("viewName");
+				List<BookDTO> alist = bservice.listProcess();
+				mav.addObject("alist", alist);
+				mav.setViewName(viewName);
+				return mav;
 		}
-		mav.setViewName(viewName);
-
-		return mav;
-	}
-	
 	
 	
 //	Form으로 끝나는 친구들 연결 시키는거(result = false)
