@@ -3,6 +3,7 @@ package ezenproject.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,29 +70,28 @@ public class MainController {
 	@Value("${spring.servlet.multipart.location}")
 	private String filepath;
 
+//////////////////////여기서부터 메인페이지 관련 //////////////////	
+	
 //	메인 페이지 연결
 	// http://localhost:8090/
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	@RequestMapping(value =  {"/","/index.do" } , method = RequestMethod.GET)
 	public ModelAndView main(HttpServletRequest request, ModelAndView mav) {
 		String viewname = (String) request.getAttribute("viewName");
 		if (viewname == null) {
 			viewname = "/index";
 		}
-
+		
+		
+		List<BookDTO> alist = bservice.listProcess();
+		mav.addObject("alist", alist);
+		
 		mav.setViewName(viewname);
 
 		return mav;
 	}
-	// 메인페이지 북 카테고리 연결
-		@RequestMapping(value = "/index.do")
-		public ModelAndView mainlistAllBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav) {
-			String viewName = (String) request.getAttribute("viewName");
-				List<BookDTO> alist = bservice.listProcess();
-				mav.addObject("alist", alist);
-				mav.setViewName(viewName);
-				return mav;
-		}
+
 	
+//	////////////////////여기까지 메인페이지 관련 ////////////////////////////////////////////////
 	
 //	Form으로 끝나는 친구들 연결 시키는거(result = false)
 	@RequestMapping(value = "/*/*Form.do", method = RequestMethod.GET)
@@ -235,6 +235,21 @@ public class MainController {
 
 			return "redirect:/mypage/myorderlist.do?member_number="+member_number;
 		}
+		
+		
+		//할인권 출력
+				@RequestMapping(value = "/mypage/mycoupon.do", method = RequestMethod.GET)
+				public ModelAndView myCouponlist(ModelAndView mav, String member_number) {	 
+					 
+					 List<CouponDTO> aList = couponservice.listProcess(member_number);
+					
+					 mav.addObject("aList", aList); 
+					// System.out.println(aList);
+					mav.setViewName("/mypage/mycoupon");
+					return mav;
+				} 
+		
+		
 	
 //	///////////////////////////여기까지 마이페이지//////////////////////////////////////////////
 	
@@ -245,8 +260,8 @@ public class MainController {
 //////////////////////////////여기서부터 도서 리스트/////////////////////////////////////////////////////	
 	
 	
-//	모든 종류 도서 리스트
-	@RequestMapping(value = "/book/allBooklist.do")
+//	모든 종류 도서 리스트(신작 도서리스트)
+	@RequestMapping(value = "/book/*Booklist.do")
 	public ModelAndView listAllBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav) {
 		int totalRecord = bservice.countProcess();
 		String viewName = (String) request.getAttribute("viewName");
@@ -258,6 +273,8 @@ public class MainController {
 			}
 			pdto = new PageDTO(currentPage, totalRecord);
 			List<BookDTO> alist = bservice.allBookListProcess(pdto);
+			List<BookDTO> newList = bservice.newBookListProcess(pdto);
+			mav.addObject("newList", newList);
 			mav.addObject("alist", alist);
 			mav.addObject("pv", pdto);
 
@@ -596,5 +613,6 @@ List<CouponDTO> couponlist = couponservice.listProcess(member_number);
 	}
 
 //////////////////////////////////////////////////////여기까지 관리자 페이지 메소드입니다.///////////////	
+
 
 }

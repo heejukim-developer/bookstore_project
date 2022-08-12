@@ -16,24 +16,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
-<script>
-$(document).ready(function(){
-	  var currentPosition = parseInt($(".quickmenu").css("top"));
-	  $(window).scroll(function() {
-	    var position = $(window).scrollTop(); 
-	    $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
-	  });
-	});
-</script>
 
 </head>
 
 <body>
-	<main id="main">
+	<main id="main" >
 	
 		
 	<!-- Banner Start-->
-	<div class="container">
+	
+	<div class="container" >
 		<div id="carouselExampleIndicators" class="carousel slide"
 			data-bs-ride="carousel" style="margin-bottom: 50px">
 			<div class="carousel-indicators">
@@ -85,7 +77,7 @@ $(document).ready(function(){
 	</div>
 	
 	
-</div> <!-- end event banner -->
+</div> <!-- end first slide -->
 
 </div> 
 			<div class="carousel-item">
@@ -109,13 +101,13 @@ $(document).ready(function(){
 		</button>
 	
 </div>
+
+</div><!-- slide container End -->
+
 	
-</div> <!-- Banner End -->
 
-
-<!-- ======= Post Grid Section ======= -->
 <!-- 이달의 추천 편집장의 선택  -->
- <section id="posts" class="posts">
+
 	<div class="container" data-aos="fade-up">
 		<div class="row g-5">
 			<div class="col-lg-4">
@@ -159,25 +151,15 @@ $(document).ready(function(){
 			수 있을까</p>
 	</div>
 </div>
-	
-<%@ include file = "../common/mainCategory.jsp"%>
-			
-	<!-- 퀵메뉴 -->			
-	 <div class="col-lg-1">
-		<div class="quickmenu">
-	  <ul>
-	    <li><a href="/mypage/mypageForm.do">마이페이지</a></li>
-	    <li><a href="#">장바구니 </a></li>
-	  </ul>
-		</div>
-	</div>	<!-- "col-lg-1" 퀵메뉴 끝 -->
-			
-	</div><!--	"col-g-5"의 끝 -->
-		
-		
-		</div><!--  -->
-		<!-- End Trending Section --> 
-	
+
+<%@ include file = "mainCategory.jsp"%>
+
+
+</div><!--	"col-g-5"의 끝 -->	
+
+
+		</div><!-- end container -->	
+
 	</main>
 	</body>
 	</html>	

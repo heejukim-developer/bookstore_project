@@ -87,12 +87,15 @@
 
   <!-- mypage menu start -->
 
-	<%@ include file = "mypagemenu.jsp"%>
+
+
+	
   <!-- mypage menu end -->
   
   
   <!-- member detail start -->
-
+<div class ="container" style="min-width:1000px;">
+<%@ include file = "mypagemenu.jsp"%>
 <form class="row g-3" id="frm" method="post" name="frm">
   <div class="col-md-4">
     <label for="inputState" class="form-label">회원번호</label>
@@ -110,6 +113,7 @@
     <label for="inputPassword4" class="form-label">비밀번호</label>
     <input type="password" class="form-control" name="member_pass" id="member_pass" value="${memberInfo.member_pass }" readonly="readonly">
       <!-- 비밀번호 변경 버튼 -->
+      <br>
 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#pass_change">
   비밀번호 변경하기
 </button>
@@ -165,7 +169,7 @@
   <input type="button" id="delete" class="btn btn-danger" value="회원 탈퇴" />
   </div>
 </form>
-
+</div>
   <!-- member detail end -->
   
    <!-- Footer Start -->

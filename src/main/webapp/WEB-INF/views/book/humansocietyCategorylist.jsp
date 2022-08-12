@@ -56,6 +56,7 @@
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/">메인</a></li>
+					<li class="breadcrumb-item"><a href="/book/allBooklist.do">모든 도서</a></li>
 					<li class="breadcrumb-item active" aria-current="page">인문/사회</li>
 				</ol>
 			</nav>
@@ -67,10 +68,11 @@
 
 	<!-- booklist start -->
 
+
+
 <div id="wrap">
 <div class="wrapper">
-	<c:forEach items="${alist}" var="book">
-	<div class="list_header">
+<div class="list_header">
 	<h5 class="title_best_basic">
 		분야 종합 
 	<small>(집계기준 : 2022.7.20 ~ ${year}.${month}.${date})</small>
@@ -78,17 +80,21 @@
 
 	</h5>
 	</div>
+
+	<c:forEach items="${alist}" var="book">
+	
 	
 	
 <ul class="list_type01">
 <li>
-
 <div class="cover">
+
 <c:url var="detail_path" value="book_detail.do">
 	<c:param name="currentPage" value="${pv.currentPage }" />
 	<c:param name="num" value="${book.num }" />
 </c:url>
-<a href="${detail_path }">
+
+<a href="${detail_path}">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
 
 </div>
@@ -145,7 +151,7 @@
 			<c:when test="${isLogOn == true  && member!= null}">
 		
 		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
-			&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
+		&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
 			</c:when>
 	
 	<c:otherwise>
@@ -157,8 +163,8 @@
 	</c:when>
 	
 	<c:otherwise>
-			<button class="btn btn-warning" disabled>일시품절</button>
-			<button class="btn btn-danger" disabled>일시품절</button>
+			
+			<a class="btn_medium btn_blue_zero" > 일시품절 </a>
 		</c:otherwise>
 	</c:choose>
 
@@ -184,7 +190,7 @@
 <!-- 이전 시작 -->
 	<li class="page-item"><c:if test="${pv.startPage>1}">
 		<a class="page-link"
-			href="/book/allBooklist.do?currentPage=${pv.startPage-pv.blockPage}"
+			href="/book/humansocietyCategorylist.do?book_category=2&currentPage=${pv.startPage-pv.blockPage}"
 			aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 		</a>
 		</c:if></li>
@@ -192,8 +198,9 @@
 
 <!-- 게시판 목록 이동 시작 -->
 	<c:forEach var="i" begin="${pv.startPage }" end="${pv.endPage }">
-		<c:url var="currPage" value="allBooklist.do">
+		<c:url var="currPage" value="humansocietyCategorylist.do">
 			<c:param name="currentPage" value="${i}" />
+			<c:param name="book_category" value="2" />
 		</c:url>
 	<c:choose>
 		<c:when test="${i==pv.currentPage }">
@@ -221,7 +228,7 @@
 	<li class="page-item">
 	<c:if test="${pv.endPage<pv.totalPage}">
 			<a class="page-link" 
-				href="/book/allBooklist.do?currentPage=${pv.startPage+pv.blockPage}"
+				href="/book/humansocietyCategorylist.do?book_category=2&currentPage=${pv.startPage+pv.blockPage}"
 				aria-label="Next"> 
 				<span aria-hidden="true">&raquo;</span>
 			</a>

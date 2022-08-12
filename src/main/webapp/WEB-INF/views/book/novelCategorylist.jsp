@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +18,7 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
-	
+
 <!-- today -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="now" value="<%=new java.util.Date() %>"/>
@@ -34,16 +35,14 @@
 <fmt:formatDate value="${tomorrow}" pattern="d" var="tomorrowdate" />
 <!-- //tomorrow  -->
 
-<link href="../assets/css/style.css" rel="stylesheet" />
+ <link href="../assets/css/style.css" rel="stylesheet" /> 
  <link href="../assets/css/book.css" rel="stylesheet" />
-
-<title>소설</title>
+<title>모든 도서</title>
 <link rel="short icon" href="../assets/img/favicon.png"
 	type="image/x-icon" />
 
-
-
 </head>
+
 <body>
 	<!-- Header Start -->
 	<!-- Nabar start -->
@@ -51,13 +50,13 @@
 	<%@ include file="../common/header.jsp"%>
 	<!-- Header end -->
 
-	<!-- breadclumb start -->
+<!-- breadclumb start -->
 	<section class="bread">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="/">메인</a></li>
-					<li class="breadcrumb-item"><a href="/">모든 도서</a></li>
+					<li class="breadcrumb-item"><a href="/book/allBooklist.do">모든 도서</a></li>
 					<li class="breadcrumb-item active" aria-current="page">소설</li>
 				</ol>
 			</nav>
@@ -73,8 +72,8 @@
 
 <div id="wrap">
 <div class="wrapper">
-	<c:forEach items="${alist}" var="book">
-	<div class="list_header">
+
+<div class="list_header">
 	<h5 class="title_best_basic">
 		분야 종합 
 	<small>(집계기준 : 2022.7.20 ~ ${year}.${month}.${date})</small>
@@ -82,12 +81,14 @@
 
 	</h5>
 	</div>
+	<c:forEach items="${alist}" var="book">
+	
 	
 	
 <ul class="list_type01">
 <li>
-
 <div class="cover">
+
 <c:url var="detail_path" value="book_detail.do">
 	<c:param name="currentPage" value="${pv.currentPage }" />
 	<c:param name="num" value="${book.num }" />
@@ -149,7 +150,7 @@
 			<c:when test="${isLogOn == true  && member!= null}">
 		
 		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
-			&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
+		&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
 			</c:when>
 	
 	<c:otherwise>
@@ -161,8 +162,8 @@
 	</c:when>
 	
 	<c:otherwise>
-			<button class="btn btn-warning" disabled>일시품절</button>
-			<button class="btn btn-danger" disabled>일시품절</button>
+			
+			<a class="btn_medium btn_blue_zero" > 일시품절 </a>
 		</c:otherwise>
 	</c:choose>
 
@@ -188,7 +189,7 @@
 <!-- 이전 시작 -->
 	<li class="page-item"><c:if test="${pv.startPage>1}">
 		<a class="page-link"
-			href="/book/allBooklist.do?currentPage=${pv.startPage-pv.blockPage}"
+			href="/book/novelCategorylist.do?book_category=1&currentPage=${pv.startPage-pv.blockPage}"
 			aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 		</a>
 		</c:if></li>
@@ -196,8 +197,9 @@
 
 <!-- 게시판 목록 이동 시작 -->
 	<c:forEach var="i" begin="${pv.startPage }" end="${pv.endPage }">
-		<c:url var="currPage" value="allBooklist.do">
+		<c:url var="currPage" value="novelCategorylist.do">
 			<c:param name="currentPage" value="${i}" />
+			<c:param name="book_category" value="1" />
 		</c:url>
 	<c:choose>
 		<c:when test="${i==pv.currentPage }">
@@ -225,7 +227,7 @@
 	<li class="page-item">
 	<c:if test="${pv.endPage<pv.totalPage}">
 			<a class="page-link" 
-				href="/book/allBooklist.do?currentPage=${pv.startPage+pv.blockPage}"
+				href="/book/novelCategorylist.do?book_category=1&currentPage=${pv.startPage+pv.blockPage}"
 				aria-label="Next"> 
 				<span aria-hidden="true">&raquo;</span>
 			</a>
@@ -237,8 +239,10 @@
 </div>
 <!-- pagination end -->
 	
+<!-- board end -->
 
-	<!-- Footer Start -->
-	<%@ include file="../common/footer.jsp"%>
-	<!-- Footer end -->
+<!-- Footer Start -->
+<%@ include file="../common/footer.jsp"%>
+<!-- Footer end -->
+	 </body>
 </html>

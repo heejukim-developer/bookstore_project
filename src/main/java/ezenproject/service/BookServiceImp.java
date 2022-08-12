@@ -1,4 +1,5 @@
 package ezenproject.service;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,7 +41,14 @@ public class BookServiceImp implements BookService{
 		
 		return dao.allBookList(pv);
 	}
-	
+//	신작도서 리스트 
+	@Override
+	public List<BookDTO> newBookListProcess(PageDTO pv) {
+
+		return dao.newBookList(pv);
+	}
+
+
 //	장르별 도서 갯수
 	@Override
 	public int countCategoryProcess(int book_category) {
@@ -74,7 +82,7 @@ public class BookServiceImp implements BookService{
 		return dao.searchList(pv);
 	}
 	
-	
+// 사이트의 기본판매가	
 	@Override
 	public void makeSellprice(BookDTO dto, int book_price) {
 		
@@ -92,14 +100,7 @@ public class BookServiceImp implements BookService{
 		
 		return dto;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 /////////////////////////////	여기서부터 관리자 페이지 서비스입니다//////////
 	
 	@Override
