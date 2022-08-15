@@ -94,7 +94,7 @@
   
   
   <!-- member detail start -->
-<div class ="container" style="min-width:1000px;">
+<div class ="container">
 <%@ include file = "mypagemenu.jsp"%>
 <form class="row g-3" id="frm" method="post" name="frm">
   <div class="col-md-4">
