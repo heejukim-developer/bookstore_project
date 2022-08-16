@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,7 +38,7 @@
 
  <link href="../assets/css/style.css" rel="stylesheet" /> 
  <link href="../assets/css/book.css" rel="stylesheet" />
-<title>모든 도서</title>
+<title>장르별 도서</title>
 <link rel="short icon" href="../assets/img/favicon.png"
 	type="image/x-icon" />
 
@@ -55,9 +56,9 @@
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="/">메인</a></li>
+					<li class="breadcrumb-item"><a href="/">메인페이지</a></li>
 					<li class="breadcrumb-item"><a href="/book/allBooklist.do">모든 도서</a></li>
-					<li class="breadcrumb-item active" aria-current="page">인문/사회</li>
+					<li class="breadcrumb-item active" aria-current="page">${categoryName }</li>
 				</ol>
 			</nav>
 		</div>
@@ -72,6 +73,7 @@
 
 <div id="wrap">
 <div class="wrapper">
+
 <div class="list_header">
 	<h5 class="title_best_basic">
 		분야 종합 
@@ -80,7 +82,6 @@
 
 	</h5>
 	</div>
-
 	<c:forEach items="${alist}" var="book">
 	
 	
@@ -93,8 +94,7 @@
 	<c:param name="currentPage" value="${pv.currentPage }" />
 	<c:param name="num" value="${book.num }" />
 </c:url>
-
-<a href="${detail_path}">
+<a href="${detail_path }">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
 
 </div>
@@ -108,13 +108,11 @@
 	</div>
 	
 	<div class="author">${book.book_author}
-    <c:if test="${book.book_category==1}">
-		<small class="text-muted">[소설]</small>
-	</c:if>
+    
+		<small class="text-muted">[${categoryName }]</small>
 	
-	<c:if test="${book.book_category==2}">
-		<small class="text-muted">[인문/사회]</small>
-	</c:if> 
+	
+	
     
     <span class="line">|</span> ${book.book_publisher}
     <span class="line">|</span> 2022년 05월 30일
@@ -152,14 +150,25 @@
 		
 		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
 		&member_number=${member.member_number}"class="btn_medium btn_blue">바로 구매하기</a>
+		
+		<input id="cartInId" value="${book.book_id }" hidden="true">
+		<input class="list_cart_btn btn_blue2" id="cart_btn" type="button" value="장바구니에 담기">
+	<br>
+		
 			</c:when>
 	
 	<c:otherwise>
 		<a href="${contextPath}/member/loginForm.do"class="btn_medium btn_blue"> 바로 구매하기 </a>
+		<a href="${contextPath}/member/loginForm.do" class="btn_medium  btn_blue2">
+		장바구니에 담기
+		
+		</a>
+	<br>
+		
 	</c:otherwise>
 		</c:choose>				
 		
-	<a href="path" class="btn_medium  btn_blue2">장바구니에 담기</a><br>
+	
 	</c:when>
 	
 	<c:otherwise>
@@ -190,7 +199,7 @@
 <!-- 이전 시작 -->
 	<li class="page-item"><c:if test="${pv.startPage>1}">
 		<a class="page-link"
-			href="/book/humansocietyCategorylist.do?book_category=2&currentPage=${pv.startPage-pv.blockPage}"
+			href="/book/novelCategorylist.do?book_category=1&currentPage=${pv.startPage-pv.blockPage}"
 			aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 		</a>
 		</c:if></li>
@@ -198,9 +207,9 @@
 
 <!-- 게시판 목록 이동 시작 -->
 	<c:forEach var="i" begin="${pv.startPage }" end="${pv.endPage }">
-		<c:url var="currPage" value="humansocietyCategorylist.do">
+		<c:url var="currPage" value="novelCategorylist.do">
 			<c:param name="currentPage" value="${i}" />
-			<c:param name="book_category" value="2" />
+			<c:param name="book_category" value="1" />
 		</c:url>
 	<c:choose>
 		<c:when test="${i==pv.currentPage }">
@@ -228,7 +237,7 @@
 	<li class="page-item">
 	<c:if test="${pv.endPage<pv.totalPage}">
 			<a class="page-link" 
-				href="/book/humansocietyCategorylist.do?book_category=2&currentPage=${pv.startPage+pv.blockPage}"
+				href="/book/novelCategorylist.do?book_category=1&currentPage=${pv.startPage+pv.blockPage}"
 				aria-label="Next"> 
 				<span aria-hidden="true">&raquo;</span>
 			</a>
@@ -246,4 +255,37 @@
 <%@ include file="../common/footer.jsp"%>
 <!-- Footer end -->
 	 </body>
+	 
+	 <script type="text/javascript">
+	//서버 전송용 데이터
+	const form = {
+		member_number : '${member.member_number}',
+		book_id : '',
+		cart_amount : ''
+}
+	
+	$(".list_cart_btn").on("click", function(e){
+			form.cart_amount = 1;
+			form.book_id =$(this).parent("div").find("#cartInId").val();
+			$.ajax({
+				url: '/cart/list/add',
+				type: 'POST',
+				data: form,
+				success: function(result){
+					cartAlert(result);
+				}
+			})
+			});
+	function cartAlert(result){
+		if(result == '0'){
+			alert("장바구니에 추가를 하지 못하였습니다.");
+		} else if(result == '1'){
+			alert("장바구니에 추가되었습니다.");
+		} else if(result == '2'){
+			alert("장바구니에 이미 추가되어져 있습니다.");
+		}
+	}
+	
+	</script> 
+	 
 </html>
