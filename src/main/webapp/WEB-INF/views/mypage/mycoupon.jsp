@@ -32,16 +32,15 @@
 </head>
 
 <style >
-/* body {width:100%; height:100%; margin:0; padding:0; overflow-y:scroll; position:relative;} 
-html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} */
+body {width:100%; height:100%; margin:0; padding:0; overflow-y:scroll; position:relative;} 
+/* html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} */
  #coupontable{
     position:relative;
    	bottom:120px;	
-    left:250px;
-    width:60%;
+    left:300px;
+    width:70%;
     
     }
-
 </style>
 <body>
 
@@ -50,8 +49,8 @@ html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} */
     <!-- Header end -->
 
   <!-- mypage menu start -->
- <div id ="wrap">
-<div class ="container" style="min-width: 1000px;" >
+  
+ <div class="container"> 
   <%@ include file = "mypagemenu.jsp"%>
   <!-- mypage menu end --> 
  
@@ -81,13 +80,13 @@ html {width:100%; height:100%; margin:0; padding:0; overflow:hidden;} */
 </tbody>
 </table>
 </div>
-</div>
 
  <!-- coupon detail end -->
 
   
-</body>
+
   <!-- Footer Start -->
  <%@ include file = "../common/footer.jsp"%>
   <!-- Footer end -->
+  </body>
 </html>

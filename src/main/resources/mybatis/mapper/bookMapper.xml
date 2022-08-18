@@ -46,10 +46,12 @@
    ]]>
     
     </select>
-    <!-- 고객에게 보여지는 신작 책 리스트 -->
+    
+    
+        <!-- 고객에게 보여지는 신작 책 리스트 -->
      <select id="newBookList" parameterType="PageDTO" 
     resultType="BookDTO">
-
+   
    <![CDATA[
     select b.*
  from(select a.*, rownum as rm
@@ -58,7 +60,7 @@
  where b.rm>=#{startRow} and b.rm<=#{endRow}
    
    ]]>
-
+    
     </select>
     
      <!-- 고객에게 보여지는 장르 별 책 리스트 -->
@@ -106,7 +108,8 @@
     select*from ezenbooks where num=#{num}
     and book_status=1
     </select>
-
+ 
+     
     
     <!-- //////////////////여기서부터 관리자 페이지 매퍼입니다.////////////////////////  -->
     

@@ -134,6 +134,9 @@ pageEncoding="UTF-8"%>
         <li class="nav-item">
           <a class="nav-link" href="#">추천 도서</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="${contextPath}/board/boardForm.do">게시판</a>
+        </li>
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -163,10 +166,7 @@ pageEncoding="UTF-8"%>
 	   
            
            
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
+           
           </ul>
         </li>
         <li class="nav-item">
@@ -235,8 +235,10 @@ pageEncoding="UTF-8"%>
       
       </form>
       
+   
     </div>
   </div>
 </nav>
 <br />
+
 
