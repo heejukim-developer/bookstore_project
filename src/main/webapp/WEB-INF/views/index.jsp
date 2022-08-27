@@ -24,7 +24,6 @@ pageEncoding="UTF-8"%>
     <link href="./assets/css/style.css" rel="stylesheet" />
     <title>메인 페이지</title>
     
-
     <!-- 파비콘 -->
     <link
       rel="short icon"
