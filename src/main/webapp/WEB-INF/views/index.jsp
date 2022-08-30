@@ -37,7 +37,6 @@ pageEncoding="UTF-8"%>
 
     <%@ include file = "./common/header.jsp"%>
     <!-- Header end -->
-
    
     <!-- body start -->
     
