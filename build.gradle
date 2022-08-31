@@ -24,7 +24,6 @@ dependencies {
 implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.0'
 
 
-
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 compileOnly 'org.projectlombok:lombok:1.18.12'
 		
