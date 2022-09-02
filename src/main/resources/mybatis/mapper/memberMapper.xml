@@ -17,7 +17,6 @@
     
     </select>
     
-   
     <!--마이페이지 공용  -->
     <!-- 회원 1명의 정보  -->
      <select id="selectOne" resultType="MemberDTO">
