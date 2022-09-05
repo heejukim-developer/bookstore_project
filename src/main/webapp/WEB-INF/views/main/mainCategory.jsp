@@ -8,13 +8,17 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
+ 
 
 
 
@@ -37,7 +41,8 @@
 			</div>
 	</c:if> 
 	</c:forEach>
-	</div><!-- 소설 끝  -->
+	</div>
+	<!-- 소설 끝  -->
 
 
 	<div class="col-lg-4 border-start custom-border">
@@ -55,11 +60,9 @@
 	</div><!-- 인문/사회 끝-->
 
 	<!-- 베스트 셀러 -->
-	
 	<div class="col-lg-3">
 		<p class="title">
 			종합 주간 베스트셀러 <span style="color: red"> Top 5 </span></p>
-
 		 <c:forEach items="${alist}" var="book" varStatus="status" begin="0" end="4">
 		 <c:if test="${ book.book_status==1}">
 		 <div class="card" >
@@ -67,8 +70,6 @@
 		<img src="../assets/img/${book.book_img}" alt="" class="img-fluid">
 		 <strong class="rank">${status.count}</strong>
 				<div class="card-body" style="text-align: center">
-					
-	
 					<p class="card-title">${book.book_title}</p>
 				</div>
 			</a>
@@ -88,8 +89,12 @@
     <li><a href="/cart/list/${member.member_number}">장바구니 </a></li>
   </c:when>
   <c:otherwise>
-	       <li><a href="/member/loginForm.do">마이페이지</a></li>
-	       <li><a href="/member/loginForm.do">장바구니 </a></li>
+	       <li><a id="btnLoginMain" type="button">마이페이지</a></li>
+	       
+	       <li><a id="btnLoginMain" type="button">장바구니 </a></li>
+	       
+	      
+
 	       </c:otherwise>
 	       </c:choose>
   </ul>
@@ -100,6 +105,8 @@
 	 	<!-- "col-lg-1" 퀵메뉴 끝 -->
 
 
+
+
 		</div>
 	 <!--	베스트셀러 "col-lg-4"의 끝 -->
 
@@ -108,4 +115,22 @@
 		</div><!--col-lg-8의 끝  -->
 	
 </body>
+
+  <script type="text/javascript">
+  
+  $("#btnLogin, #btnLoginMain").click(function(){
+	   $("#myModal").modal("show");
+	     $(".close").click(function(){
+	         $("#myModal").modal("hide");
+	         
+	        
+	      }); 
+	
+	     
+  })
+   
+  </script>
+  
+
+
 </html>

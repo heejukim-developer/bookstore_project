@@ -44,6 +44,10 @@
 <link rel="short icon" href="../assets/img/favicon.png"
 	type="image/x-icon" />
 
+
+
+
+
 </head>
 
 <body>
@@ -83,43 +87,36 @@
 
 	</h5>
 	</div>
-	<c:forEach items="${alist}" var="book">
 	
-	
-	
+<c:forEach items="${alist}" var="book">
 <ul class="list_type01">
 <li>
 <div class="cover">
-
 <c:url var="detail_path" value="book_detail.do">
-										<c:param name="currentPage" value="${pv.currentPage }" />
-										<c:param name="num" value="${book.num }" />
-									</c:url>
+<c:param name="currentPage" value="${pv.currentPage }" />
+<c:param name="num" value="${book.num }" />
+</c:url>
+
 <a href="${detail_path }">
 <img src="../assets/img/${book.book_img }" alt="..."></a>
-
 </div>
 
 
 <div class="detail">
-
 	<div class="booklist_title">
 	 <strong>${book.book_title}</strong>
 	</div>
-	
 	<div class="author">${book.book_author}
 	<!--장르구분 시작  -->
     <c:if test="${book.book_category==1}">
 		<small class="text-muted">[시]</small>
 	</c:if>
-	
 	<c:if test="${book.book_category==2}">
 		<small class="text-muted">[역사소설]</small>
 	</c:if> 
 	 <c:if test="${book.book_category==3}">
 		<small class="text-muted">[과학소설(SF)]</small>
 	</c:if>
-	
 	<c:if test="${book.book_category==4}">
 		<small class="text-muted">[추리/미스터리 소설]</small>
 	</c:if> 
@@ -267,7 +264,6 @@
 	</div>
 
 	<div class="price">
-
         도서
 	 <strong class="book_price">${book.book_price}원</strong>
 	  <span class="dc_rate">[<strong>10</strong>%↓ + <strong>5</strong>% 적립]</span>
@@ -277,9 +273,11 @@
 	    </div>
 	    
     <div class="info">
-    지금 주문하면  <strong class="blue">내일(${tomorrowmonth}월 ${tomorrowdate}일 ${tomorrowday}요일)</strong><strong class="blue"> 도착 예정</strong> 입니다
-    
+    지금 주문하면  
+    <strong class="blue">내일(${tomorrowmonth}월 ${tomorrowdate}일 ${tomorrowday}요일)</strong>
+    <strong class="blue"> 도착 예정</strong> 입니다
     </div> 
+    
 </div>
 
 <div class="book_add">
@@ -287,36 +285,25 @@
 	<c:when test="${book.book_stock==1}">
 		<c:choose>
 			<c:when test="${isLogOn == true  && member!= null}">
-		
 		<a href="${contextPath}/order/orderDetail.do?num=${book.num }
 		&member_number=${member.member_number}&book_qty=1"class="btn_medium btn_blue">바로 구매하기</a>
-		
 		<input id="cartInId" value="${book.book_id }" hidden="true">
 		<input class="list_cart_btn btn_blue2" id="cart_btn" type="button" value="장바구니에 담기">
 	<br>
-		
 			</c:when>
-	
 	<c:otherwise>
-		<a href="${contextPath}/member/loginForm.do"class="btn_medium btn_blue"> 바로 구매하기 </a>
-		<a href="${contextPath}/member/loginForm.do" class="btn_medium  btn_blue2">
+		<a id="btnLoginList" type="button" class="btn_medium btn_blue" > 바로 구매하기 </a>
+		<a id="btnLoginList" type="button" class="btn_medium  btn_blue2">
 		장바구니에 담기
-		
 		</a>
 	<br>
-		
 	</c:otherwise>
 		</c:choose>				
-		
-	
 	</c:when>
-	
 	<c:otherwise>
 	<a class="btn_medium btn_blue_zero" > 일시품절 </a>
-			
-		</c:otherwise>
-	</c:choose>
-
+	</c:otherwise>
+</c:choose>
 </div>
 
 </li>
@@ -434,5 +421,22 @@
 	}
 	
 	</script> 
+	<script type="text/javascript">
+  
+  $("#btnLogin, #btnLoginList").click(function(){
+	   $("#myModal").modal("show");
+	     $(".close").click(function(){
+	         $("#myModal").modal("hide");
+	         
+	        
+	      }); 
+	
+	     
+  })
+  
+ 
+ 
+  
+  </script>
 	 
 </html>

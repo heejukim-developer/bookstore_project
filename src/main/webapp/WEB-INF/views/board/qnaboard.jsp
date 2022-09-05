@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시판</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -21,56 +22,29 @@
 
 
     <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/board.css" rel="stylesheet" />
 <script type="text/javascript">
 
 function btnWrite() {
+	if(${isLogOn == true  && member!= null}){
+		  frm.target = "_self";
+			 
+		  frm.action = "/board/write.do";
 
-	  frm.target = "_self";
-	 
-	  frm.action = "/board/write.do";
 
-
-	  frm.submit();
-
+		  frm.submit();
+	}else{
+	alert("게시판글 작성은 로그인후 가능합니다.");
+	 $("#myModal").modal("show");
+     $(".close").click(function(){
+         $("#myModal").modal("hide");
+         
+        
+      }); 
+	}
 	}
 
 </script>      
-<style type="text/css">
-
-
-#bodywrap{
-  position:relative;
-  width:70%;
-  margin-left:300px;
-  bottom: 155px;
-  
-}
-
-table,tr,th,td{
-	border:1px solid black;
-	border-collapse: collapse;	
-}
-
-.pagelist a{
-	color:white;
-	bottom:40px;
-}
-
-.pagelist a:hover, .pagelist .pagecolor{
-	text-decoration: underline;
-}
-#frm{
-	padding-left: 900px;
-}
-
-a {
-  text-decoration: none;
-  color: white;
-}
-
-
-
-</style>
 </head>
 <body>
 	<!-- Header start -->
@@ -78,6 +52,7 @@ a {
     <%@ include file = "../common/header.jsp"%>
     <!-- Header end -->
     
+    <div class="container">
     <!-- BoardMenu start -->
   <%@ include file = "boardmenu.jsp"%>
   	<!-- BoardMenu End -->
@@ -117,10 +92,10 @@ a {
 	<hr />
 	<!-- 글쓰기 -->
 	<form id="frm" method="get" action="write.do">
-	<input type="button"  onclick="btnWrite()" class="btn btn-secondary" value="글쓰기">
+	<input type="button" id="writeBtn" onclick="btnWrite()" class="btn btn-secondary" value="글쓰기">
 	<input type="hidden" name="board_type" value="2" />
 	</form>
-	<div class="pagelist">
+	<div class="mypagelist">
 	<!-- 이전 출력 시작 -->
 	<ul class="pagination">
 	<c:if test="${pv.startPage>1}">
@@ -156,7 +131,7 @@ a {
 
 </div>
 
-
+</div>
 
     <!-- Footer Start -->
  <%@ include file = "../common/footer.jsp"%>

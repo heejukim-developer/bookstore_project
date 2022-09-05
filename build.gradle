@@ -17,11 +17,14 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-core'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'//jsp
 	implementation 'javax.servlet:jstl:1.2'
+	
+	
 	
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
 implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.0'
+
 
 
 	// https://mvnrepository.com/artifact/org.projectlombok/lombok

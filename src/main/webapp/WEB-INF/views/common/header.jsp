@@ -4,6 +4,16 @@ pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 
+
+ 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link href="../assets/css/login.css" rel="stylesheet" />
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -11,7 +21,7 @@ pageEncoding="UTF-8"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
   <div class="container">
-    <a class="navbar-brand" href="/">배너 들어 갈 자리</a>
+    <a class="navbar-brand" href="/"> <img src="../assets/img/로고.png" alt="로고이미지" class="img-fluid"></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -87,7 +97,7 @@ pageEncoding="UTF-8"%>
   </ul>
 </li>
 <li class="dropdown-submenu">
-  <button type="button" class="btn ">예술/대중문호</button>  
+  <button type="button" class="btn ">예술/대중문화</button>  
   <ul class="dropdown-menu" >
     <!-- Dropdown menu links -->
     <li><a class="dropdown-item" href="/book/Categorylist.do?book_category=25&categoryName=컬러링북">컬러링북</a></li>
@@ -158,7 +168,7 @@ pageEncoding="UTF-8"%>
              <li><a class="dropdown-item" href="${contextPath}/mypage/mypageForm.do">My Page</a></li>
           </c:when>
           <c:otherwise>
-	       <li><a class="dropdown-item" href="${contextPath}/member/loginForm.do">로그인</a></li>
+	       <li><a type="button" class="dropdown-item" id="btnLogin">로그인</a></li>
 	        <li><a class="dropdown-item" href="${contextPath}/member/memberJoinForm.do">회원 가입</a></li>
 	       
 	      </c:otherwise>
@@ -235,9 +245,60 @@ pageEncoding="UTF-8"%>
       
       </form>
       
+      
    
     </div>
   </div>
+  
+  
+  <script type="text/javascript">
+  
+  $("#btnLogin").click(function(){
+	   $("#myModal").modal("show");
+	     $(".close").click(function(){
+	         $("#myModal").modal("hide");
+	         
+	        
+	      }); 
+	
+	     
+  })
+  
+ 
+ 
+  
+  </script>
+  
+  <div id="myModal" class="modal fade">
+	 <div class="modal-dialog modal-login">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="avatar">
+					<img src="../assets/img/avatar.png" alt="Avatar">
+				</div>				
+				<h4 class="modal-title">Member Login</h4>	
+                <button type="button" class="close" >&times;</button>
+			</div>
+			<div class="modal-body">
+				<form name="login" method="post"  action="/member/login.do">
+					<div class="form-group" style="text-align:center; margin-top:20px; margin-bottom:0px;">
+						<input type="text" class="form-control" name="member_id" placeholder="ID" required="required">		
+					</div>
+					<div class="form-group">
+						<input type="password" class="form-control" name="member_pass" placeholder="Password" required="required">	
+					</div>        
+					<div class="form-group">
+						<button type="submit" class="btn btn-dark btn-lg btn-block login-btn" >Login</button>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="/member/memberJoinForm.do">회원가입</a>
+			</div>
+		</div>
+	</div> 
+</div>  
+  
 </nav>
 <br />
 

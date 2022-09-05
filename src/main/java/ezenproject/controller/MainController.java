@@ -127,6 +127,8 @@ public class MainController {
 		return mav;
 	}
 
+	
+	
 //	/////////////////////////////// 여기서부터 로그인& 로그아웃 & 회원가입/////////////////////////////////////////////////
 //	로그인 하는 행위
 	@RequestMapping(value = "/member/login.do", method = RequestMethod.POST)
@@ -144,15 +146,31 @@ public class MainController {
 			if (action != null) {
 				mav.setViewName("redirect:" + action);
 			} else {
-				mav.setViewName("redirect:/");
+				mav.setViewName("redirect:"+request.getHeader("Referer"));
 			}
 		} else {
 			rAttr.addAttribute("result", "loginFailed");
-			mav.setViewName("redirect:/member/loginForm.do");
+			mav.setViewName("redirect:../common/loginalert.do");
 		}
 
 		return mav;
 	}
+	
+//	로그인 처리
+	@RequestMapping(value = "/*/*alert.do", method = RequestMethod.GET)
+	private ModelAndView loginDODO(@RequestParam(value = "result", required = false) String result,
+			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+			HttpServletResponse response) {
+		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action);
+
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result", result);
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
 
 //	로그아웃 하는 행위
 	@RequestMapping(value = "/member/logout.do", method = RequestMethod.GET)
@@ -250,8 +268,8 @@ public class MainController {
 		
 		//배송 확인
 		@RequestMapping(value="/mypage/myorderstatus.do", method = RequestMethod.GET)
-		public ModelAndView orderStatusMethod(String order_number, ModelAndView mav) throws Exception {
-			odto = oservice.orderStatusProcess(order_number);
+		public ModelAndView orderStatusMethod(int onum, ModelAndView mav) throws Exception {
+			odto = oservice.orderStatusProcess(onum);
 			mav.addObject("orderstatus", odto);
 			mav.setViewName("/mypage/myorderstatus");
 			
@@ -351,7 +369,7 @@ public class MainController {
 	
 //////////////////////////////여기서부터 도서 리스트/////////////////////////////////////////////////////	
 	
-	
+//	http://localhost:8090/book/allBooklist.do
 //	모든 종류 도서 리스트(신작 도서리스트)
 	@RequestMapping(value = "/book/*Booklist.do")
 	public ModelAndView listAllBookMethod(HttpServletRequest request, PageDTO pv, ModelAndView mav) {
@@ -390,6 +408,7 @@ public class MainController {
 			}
 			pdto = new PageDTO(currentPage, totalRecord);
 			List<BookDTO> alist = bservice.categoryBookListProcess(pdto, book_category);
+			mav.addObject("book_category", book_category);
 			mav.addObject("categoryName", categoryName);
 			mav.addObject("alist", alist);
 			mav.addObject("pv", pdto);
@@ -466,7 +485,8 @@ public class MainController {
 
 //	주문 페이지 들어가기
 	@RequestMapping(value = "/order/orderDetail.do")
-	public ModelAndView viewMethod(HttpServletRequest request, int num, ModelAndView mav, String member_number, int book_qty) {
+	public ModelAndView viewMethod(HttpServletRequest request, int num, ModelAndView mav,
+			String member_number, int book_qty) {
  bdto= bservice.contentProcess(num);
 List<CouponDTO> couponlist = couponservice.listProcess(member_number);
 		String viewName = (String) request.getAttribute("viewName");

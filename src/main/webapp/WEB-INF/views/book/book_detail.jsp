@@ -123,7 +123,7 @@
 							</th>
 						</tr>
 						<tr>
-						<th><p style="margin-top: 10px">줄거리</p></th>
+						<th><p style="margin-top: 10px">책 소개</p></th>
 						</tr>
 						<tr>
 							<td colspan="2" class="book_story">${dto.book_content}</td>
@@ -234,10 +234,10 @@
 					<input class="buy_button3" type="button" value="바로구매" onclick="noStock()">
 					</c:when>
 					<c:otherwise>
-					<input class="buy_button1" type="button" value="장바구니 추가" onclick="nologin()">
-					<input class="buy_button1" type="button" value="장바구니 확인" onclick="nologin()" >
-					<input class="buy_button2" type="button" value="매장구매" onclick="nologin()">
-					<input class="buy_button3" type="button" value="바로구매" onclick="nologin()">
+					<input class="buy_button1" type="button" value="장바구니 추가" id="btnLoginBookDetail" onclick="nologin()">
+					<input class="buy_button1" type="button" value="장바구니 확인" id="btnLoginBookDetail" onclick="nologin()" >
+					<input class="buy_button2" type="button" value="매장구매" id="btnLoginBookDetail" onclick="nologin()">
+					<input class="buy_button3" type="button" value="바로구매" id="btnLoginBookDetail" onclick="nologin()">
 					</c:otherwise>
 					</c:choose>
 					</div>
@@ -265,7 +265,12 @@
 <div class="image-box">
 <div id="random_book_img">
 <c:forEach items="${alist}" var="list">
-	<img src="../assets/img/${list.book_img }" width="140" height="210" >
+<c:url var="detail_path" value="book_detail.do">
+										<c:param name="currentPage" value="1" />
+										<c:param name="num" value="${list.num }" />
+									</c:url>
+	<a href="${detail_path }">								
+	<img src="../assets/img/${list.book_img }" width="140" height="210" ></a>
 </c:forEach>
   	</div>
   	</div>	
@@ -366,5 +371,21 @@ window.open(link);
 		alert('로그인이 필요한 서비스입니다.')
 	};
 	</script>
+	
+	<script type="text/javascript">
+  
+  $("#btnLogin, #btnLoginBookDetail").click(function(){
+	   $("#myModal").modal("show");
+	     $(".close").click(function(){
+	         $("#myModal").modal("hide");
+	         
+	        
+	      }); 
+	
+	     
+  })
+  
+  </script>
+	
 	
 </html>
